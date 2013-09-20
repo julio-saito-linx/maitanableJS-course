@@ -1,19 +1,23 @@
-function EventEmitter(){
-	this._events = [];
-};
+;(function(context){
 
-EventEmitter.prototype.on  = function(event, callbackItem, context){
-	this._events[event] = this._events[event] || [];
-	this._events[event].push(context ? callbackItem.bind(context) : callbackItem);
-};
+	function EventEmitter(){
+		this._events = [];
+	};
 
-EventEmitter.prototype.trigger  = function(){
-	var argsArray = [].slice.call(arguments);
-	var selectedEvent = argsArray.shift();
+	EventEmitter.prototype.on  = function(event, callbackItem, context){
+		this._events[event] = this._events[event] || [];
+		this._events[event].push(context ? callbackItem.bind(context) : callbackItem);
+	};
 
-	(this._events[selectedEvent] || []).forEach(function(callbackItem){
-		callbackItem.apply(undefined, argsArray);
-	});
-};
+	EventEmitter.prototype.trigger  = function(){
+		var argsArray = [].slice.call(arguments);
+		var selectedEvent = argsArray.shift();
 
+		(this._events[selectedEvent] || []).forEach(function(callbackItem){
+			callbackItem.apply(undefined, argsArray);
+		});
+	};
+
+	context.EventEmitter = EventEmitter;
+})(typeof(exports) === "undefined" ? this : exports );
 
