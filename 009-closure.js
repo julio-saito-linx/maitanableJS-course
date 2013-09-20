@@ -6,18 +6,15 @@ var  list = ["A","B","C"]
 
 for (var i = 0; i < list.length; i++) {
 	// the "i" variable is passed as reference
-	var getNumber = function(){
+	caller.push(function(){
 		return i; 
-	}
-	caller.push( getNumber );                   
+	});                   
 	
 	// the "i" variable, now, get inside a function scope and the value is preserved
-	var getNumberFunctionScope = function(number){
-		return function(){
-			return number;
-	  	};
-	}
-	caller2.push( getNumberFunctionScope(i) );  
+	caller2.push( function(number){
+				 	return function(){ return number; }; 
+				  }(i)
+				);
 };
 
 result = "";
