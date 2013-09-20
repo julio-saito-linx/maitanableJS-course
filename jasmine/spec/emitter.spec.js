@@ -3,14 +3,12 @@ describe("EventEmitter", function(){
 
 	beforeEach(function(){
 		emitter = new EventEmitter();
+		callback = jasmine.createSpy("callback spy")
 	})
 
 	it("trigger event", function(){
-		var called = true;
-		emitter.on("eventName", function(){
-			called = true;
-		});
-
-		expect(called).toBeTruthy();
+		emitter.on("eventName", callback);
+		emitter.trigger("eventName");
+		expect(callback).wasCalled();
 	})
 })
