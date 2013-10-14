@@ -1,15 +1,15 @@
-console.log("=> ", test.name);
-
 function test(){
-	console.log("=> ", anonymousFunc);
-	console.log("=> ", namedFunction);
-
 	var anonymousFunc = function(){ console.log("anonymousFunc"); }
+	console.log('-->', anonymousFunc.name);
+
 	function namedFunction(){ console.log("namedFunction");	}
-	var anonymousFunc2 = function IhaveNameInsideOnly(){ console.log(IhaveNameInsideOnly.name); }
+	console.log('-->', namedFunction.name);
+	
+	var anonymousFunc2 = function IhaveNameInsideOnly(){ console.log('-->', IhaveNameInsideOnly.name); }
 	anonymousFunc2();
 
-	//console.log(IhaveNameInsideOnly); ==> error
+	// ReferenceError: IhaveNameInsideOnly is not defined
+	// console.log(IhaveNameInsideOnly); 
 }
 
 test();

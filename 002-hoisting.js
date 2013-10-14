@@ -13,6 +13,7 @@ function myFunction(hello){
 	console.log(hello);
 	console.log(hello2);
 	console.log(hello3);
+	//console.log(hello4); // ReferenceError: hello4 is not defined
 
 	if(false){
 		var hello3 = "hello3 inside false if block that is not executed"

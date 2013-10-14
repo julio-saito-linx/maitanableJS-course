@@ -13,8 +13,9 @@ var user = {
 	}
 }
 
-console.log(user.self() === user);      // "this" is himself
-setTimeout(user.name, 1000);            // "this" is not himself
-setTimeout(user.name.bind(user), 1500); // bind forces to "this" to be himself
+
+console.log(user.self() === user);     // "this" is himself
+setTimeout(user.name, 100);            // "this" is not himself
+setTimeout(user.name.bind(user), 150); // bind forces to "this" to be himself
 
 // bind() is not suported on old navigators. You have to use Augment.js or es5-shim
