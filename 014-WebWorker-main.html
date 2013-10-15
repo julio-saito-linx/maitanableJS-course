@@ -1,0 +1,17 @@
+<html>
+<head>
+  <title>web workers test</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+  var worker = new Worker('014-WebWorker-doWork.js');
+
+  worker.addEventListener('message', function(e) {
+    console.log('Worker said: ', e.data);
+  }, false);
+
+  worker.postMessage('Hello World'); // Send data to our worker.
+</script>
+</html>

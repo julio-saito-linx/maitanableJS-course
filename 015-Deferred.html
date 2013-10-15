@@ -3,8 +3,93 @@
 <body>
 	<script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
 	<script>
-		console.log($);
-		console.log($.Deferred);
+		(function(){
+
+      var searchRandom = function(options){
+        var def = $.Deferred();
+        var count = 0;
+        var randomNumbers = [];
+        var ignoredNumbers = [];
+
+        var generateUniqRandomNumber = function generateUniqRandomNumber(list){
+          var number = Math.floor(Math.random() * options.range) + 1
+
+          if(contains(list, number)){
+            ignoredNumbers.push(number);
+            return generateUniqRandomNumber(list);
+          }
+
+          return number;
+        }
+
+        var contains = function contains(list, number){
+          for (var i = list.length - 1; i >= 0; i--) {
+            if(list[i] === number){
+              return true;
+            }
+          };
+          return false;
+        }
+
+        var getRandomTimeout = function getRandomTimeout(){
+          var num = generateUniqRandomNumber(randomNumbers);
+          randomNumbers.push(num);
+
+          count++;
+
+          if(count === options.maxCount){
+            return def.reject(options, randomNumbers, ignoredNumbers);
+          }
+
+          if(num !== options.numberExpected){
+            getRandomTimeout();
+          }
+          else{
+            def.resolve(options, randomNumbers, ignoredNumbers);
+          }
+        }
+
+        getRandomTimeout();
+
+        return def.promise();
+      };
+
+      var sortNumber = function sortNumber(a,b)
+      {
+        return a - b;
+      }
+      var printResult = function printResult(message, numberExpected, randomNumbers, ignoredNumbers){
+        var s = "";
+        s += message + "\n";
+        s += "Number Expected: " + numberExpected + "\n";
+        s += "Random Numbers: [" + randomNumbers.sort(sortNumber).join(', ') + "]\n";
+        s += "Repeated Numbers: ["  + ignoredNumbers.sort(sortNumber).join(', ') + "]\n";
+        s += "Total Tries: " + randomNumbers.length + "\n";
+        console.log(s);
+      }
+
+
+      var result = searchRandom({
+                    range : 100,
+                    maxCount : 50,
+                    numberExpected : 3
+                  });
+
+      result.done(function(options, randomNumbers, ignoredNumbers){
+        printResult("YES!", options.numberExpected, randomNumbers, ignoredNumbers);
+      });
+
+      result.fail(function(options, randomNumbers, ignoredNumbers){
+        printResult("Sorry...", options.numberExpected, randomNumbers, ignoredNumbers);
+      });
+
+
+
+      // result.progress(function(count, randomNumber, numberExpected){
+      //   console.log(count, randomNumber, numberExpected);
+      // });
+
+    })();
 	</script>
 </body>
 </html>
