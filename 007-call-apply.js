@@ -1,4 +1,4 @@
-function sayName(){
+gitfunction sayName(){
 	console.log("name:", this.name, arguments);
 }
 
